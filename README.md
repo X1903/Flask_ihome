@@ -1,2 +1,2 @@
-# Flask_ihome
-爱家租房网
+# GitHub_ihome
+iHome
