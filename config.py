@@ -37,7 +37,6 @@ class ProductionConfig(Config):
     pass
 
 
-
 config_map = {
     "develop": DevelopmentConfig,
     "product": ProductionConfig
