@@ -167,7 +167,6 @@ def check_login():
     """检查登陆状态"""
     # 尝试从session中获取用户的名字
     name = session.get("name")
-    print name
     # 如果session中数据name名字存在，则表示用户已登录，否则未登录
     if name is not None:
         return jsonify(errno=RET.OK, errmsg="true", data={"name": name})

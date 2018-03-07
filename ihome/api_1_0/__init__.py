@@ -8,4 +8,4 @@ api = Blueprint('api_1_0', __name__)
 
 
 # 导入老土的试图
-from . import demoa, verify_code, passport
+from . import demoa, verify_code, passport, frofile, house
