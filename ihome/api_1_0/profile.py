@@ -1,5 +1,4 @@
-# _*_ coding:utf-8 _*_
-__author__ = 'Xbc'
+# coding:utf-8
 
 from . import api
 from ihome.utils.commons import login_required
@@ -46,8 +45,6 @@ def set_user_avatar():
     avatar_url = constants.QINIU_URL_DOMAIN + file_name
     # 保存成功返回
     return jsonify(errno=RET.OK, errmsg="保存成功", data={"avatar_url": avatar_url})
-
-
 
 
 @api.route("/users/name", methods=["PUT"])

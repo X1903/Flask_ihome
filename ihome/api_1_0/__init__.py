@@ -1,11 +1,11 @@
-# _*_ coding:utf-8 _*_
-__author__ = 'Xbc'
+# coding:utf-8
 
 from flask import Blueprint
 
+
 # 创建蓝图对象
-api = Blueprint('api_1_0', __name__)
+api = Blueprint("api_1_0", __name__)
 
 
-# 导入老土的试图
-from . import demoa, verify_code, passport, frofile, house
+# 导入蓝图的视图
+from . import demo, verify_code, passport, profile, houses, orders, pay

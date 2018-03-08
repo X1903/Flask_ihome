@@ -8,10 +8,10 @@ from CCPRestSDK import REST
 import ConfigParser
 
 # 主帐号
-accountSid = '8aaf07085fe2d98c015ff1fafe9f062c'
+accountSid = '8aaf07085fe2d98c015ff1fafe9f062ca'
 
 # 主帐号Token
-accountToken = '51f33a8b2afe461eb1585f4ce5534215'
+accountToken = '51f33a8b2afe461eb1585f4ce5534215a'
 
 # 应用Id
 appId = '8aaf07085fe2d98c015ff1fafefe0633'

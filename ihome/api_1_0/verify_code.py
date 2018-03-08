@@ -1,17 +1,15 @@
-# _*_ coding:utf-8 _*_
-__author__ = 'Xbc'
-
-from flask import Flask, request
-from ihome.utils.captcha.captcha import captcha
-from flask import current_app, jsonify, make_response
-from ihome.utils.response_code import RET
-from ihome.models import User
+# coding:utf-8
 
 from . import api
+from ihome.utils.captcha.captcha import captcha
 from ihome import redis_store, constants, db
+from flask import current_app, jsonify, make_response, request
+from ihome.utils.response_code import RET
+from ihome.models import User
 from ihome.libs.yuntongxun.sms import CCP
-from ihome.tasks.task_sms import send_sms
 import random
+# from ihome.tasks.task_sms import send_sms
+from ihome.tasks.sms.tasks import send_sms
 
 
 # GET 127.0.0.1/api/v1.0/image_codes/<image_code_id>
@@ -54,7 +52,6 @@ def get_image_code(image_code_id):
     return resp
 
 
-#
 # # GET /api/v1.0/sms_codes/<mobile>?image_code=xxxx&image_code_id=xxxx
 # @api.route("/sms_codes/<re(r'1[34578]\d{9}'):mobile>")
 # def get_sms_code(mobile):
@@ -140,8 +137,6 @@ def get_image_code(image_code_id):
 #         return jsonify(errno=RET.THIRDERR, errmsg="发送失败")
 
 
-
-
 # GET /api/v1.0/sms_codes/<mobile>?image_code=xxxx&image_code_id=xxxx
 @api.route("/sms_codes/<re(r'1[34578]\d{9}'):mobile>")
 def get_sms_code(mobile):
@@ -212,10 +207,30 @@ def get_sms_code(mobile):
         return jsonify(errno=RET.DBERR, errmsg="保存短信验证码异常")
 
     # 发送短信
-    send_sms.delay(mobile, [sms_code, int(constants.SMS_CODE_REDIS_EXPIRES/60)], 1)
+    # 使用celery异步发送短信, delay函数调用后立即返回（非阻塞）
+    # send_sms.delay(mobile, [sms_code, int(constants.SMS_CODE_REDIS_EXPIRES/60)], 1)
 
+    # 返回异步任务的对象
+    result_obj = send_sms.delay(mobile, [sms_code, int(constants.SMS_CODE_REDIS_EXPIRES/60)], 1)
+    print(result_obj.id)
+
+    # 通过异步任务对象的get方法获取异步任务的结果, 默认get方法是阻塞的
+    ret = result_obj.get()
+    print("ret=%s" % ret)
 
     # 返回值
-
+    # 发送成功
     return jsonify(errno=RET.OK, errmsg="发送成功")
+
+
+
+
+
+
+
+
+
+
+
+
 
